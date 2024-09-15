@@ -25,7 +25,7 @@ import operator
 from functools import reduce
 
 # Global settings
-LEAP_SECONDS = 18           # Note: Leap Seconds since GPS epoch, not UTC epoch
+LEAP_SECONDS_UTC = 37       # Note: Leap Seconds differ for GPS epoch / UTC epoch
 SEND_DELAY_MS = 0.075       # Delay of 75 ms after the second transition
 USE_MILLISECONDS = False    # Set to False if you want the millisecond field to be 0 in PUBX04
 
@@ -57,7 +57,7 @@ def get_phc_time():
         raise RuntimeError("Unable to find 'clock time' in the phc_ctl output")
     
     phc_time_tai = datetime.datetime.utcfromtimestamp(timestamp)
-    phc_time_utc = phc_time_tai - datetime.timedelta(seconds=LEAP_SECONDS)
+    phc_time_utc = phc_time_tai - datetime.timedelta(seconds=LEAP_SECONDS_UTC)
     
     return phc_time_utc
 
@@ -81,7 +81,7 @@ def calculate_gps_time(utc_now):
     
     return utc_tow, utc_wno
 
-def create_pubx04_message_from_phc_time(phc_time, clk_b, clk_d, pg, leap_seconds="15D",use_milliseconds=True):
+def create_pubx04_message_from_phc_time(phc_time, clk_b, clk_d, pg, leap_seconds_gps="15D",use_milliseconds=True):
     """Create PUBX04 message using PHC time and provided parameters."""
     utc_tow, utc_wno = calculate_gps_time(phc_time)
     
@@ -92,9 +92,9 @@ def create_pubx04_message_from_phc_time(phc_time, clk_b, clk_d, pg, leap_seconds
         utc_tow  = int(utc_tow)
     
     utc_date = phc_time.strftime("%d%m%y")  # ddmmyy format
-    
+        
     pubx_message = (
-        f"PUBX,04,{utc_time},{utc_date},{utc_tow:.2f},{utc_wno},{leap_seconds},"
+        f"PUBX,04,{utc_time},{utc_date},{utc_tow:.2f},{utc_wno},{leap_seconds_gps},"
         f"{clk_b},{clk_d:.3f},{pg}"
     )
     
@@ -123,8 +123,11 @@ def main():
                 # Get PHC time (adjusted to UTC)
                 phc_time = get_phc_time()
                 
+                # Calculate GPS epoch leap seconds (UTC epoch 1970-01-01, GPS epoch 1980-01-06, 19 leap seconds)
+                leap_seconds_gps = LEAP_SECONDS_UTC - 19
+                
                 # Generate PUBX04 message
-                pubx_message = create_pubx04_message_from_phc_time(phc_time, clk_b, clk_d, pg, LEAP_SECONDS, USE_MILLISECONDS)
+                pubx_message = create_pubx04_message_from_phc_time(phc_time, clk_b, clk_d, pg, leap_seconds_gps, USE_MILLISECONDS)
                 print(pubx_message)  # Print the message (optional for debugging)
                 
                 # Send the PUBX04 message via UART
