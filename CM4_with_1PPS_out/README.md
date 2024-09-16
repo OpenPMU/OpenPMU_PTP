@@ -6,7 +6,7 @@ Note, for this guide to work, you will need a PTP Master Clock somewhere on your
   - _Raspberry Pi OS Lite (64-bit) (Debian Bookworm, Released 2024-07-04) was used to test this setup._
 * Install
   - ```screen```
-  - ```linuxptp``` (3.1.1).
+  - ```linuxptp``` (3.1.1)
 
 ```
 sudo apt-get update
