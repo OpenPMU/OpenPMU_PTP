@@ -2,8 +2,11 @@
 
 Note, for this guide to work, you will need a PTP Master Clock somewhere on your subnet.
 
-* Download and install Raspberry Pi OS to the CM4.  ___Raspberry Pi OS Lite (64-bit) (Debian Bookworm, Released 2024-07-04) was used to test this setup.___
-* Install screen, linuxptp (3.1.1)
+* Download and install Raspberry Pi OS to the CM4.
+  - _Raspberry Pi OS Lite (64-bit) (Debian Bookworm, Released 2024-07-04) was used to test this setup._
+* Install
+  - ```screen```
+  - ```linuxptp``` (3.1.1).
 
 ```
 sudo apt-get update
@@ -11,7 +14,7 @@ sudo apt-get install screen
 sudo apt-get install linuxptp
 ```
 
-* Obtain testptp.c and compile it.  Please in ```/pi/home/testptp/```.
+* Obtain testptp.c and compile it.  Place it in ```/pi/home/testptp/```.
 * Copy ```Start_PTP.sh``` to your Raspberry Pi at ```/pi/home/```.  
 * Run ```./Start_PTP.sh``` as ```root``` (or add ```/dev/ptp0/```) to ```pi``` group.
 
@@ -40,4 +43,4 @@ LinuxPTP seems to rely on the driver for the Network Interface Card (NIC) implem
     - ```SYNC_OUT``` is used on a PTP Slave to provide a 1PPS output (rising edge on transition of second).  Use ```./testptp/testptp -d /dev/ptp0 -L 0,2```.
       - To start the output pulse train, you need to set the period and pulse width in nanoseconds.  Use ```./testptp/testptp -d /dev/ptp0 -p 1000000000 -w 1000```.  Only valid period is 1 second (1000000000 ns), and valid pulse width from 8 ns to 4095 ns.
   - On the CM4, these are the same pin!  So can only do one or the other.
-  - Note: This is not part of LinuxPTP, you need to get testptp.c and compile it yourself.
+  - Note: This is not installed as part of LinuxPTP, you need to get testptp.c and compile it yourself.
