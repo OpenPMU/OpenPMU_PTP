@@ -1,4 +1,4 @@
-# Configuring the Raspberry Pi CM4 as a PTP Slave Clock with 1PPS output pulse.
+# Configuring the Raspberry Pi CM4 as a PTP Slave Clock with 1PPS output pulse
 
 Note, for this guide to work, you will need a PTP Master Clock somewhere on your subnet.
 
