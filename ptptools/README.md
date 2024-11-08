@@ -1,11 +1,13 @@
 
 # Overview of PTP Tools
 
-The `setup_linuxptp_testptp.sh` Bash script is designed for setting up Precision Time Protocol (PTP) tools on a Raspberry Pi environment.  It checks for the existence of the `/dev/ptp0` device, and if found, it installs and configures the necessary tools and permissions for PTP usage.
+The `setup_linuxptp_testptp.sh` Bash script is designed for setting up Precision Time Protocol (PTP) tools on a Raspberry Pi environment.  It checks for the existence of the `/dev/ptp0` device, and if found, it installs and configures the necessary tools and permissions for PTP usage.  
+
+A group called `ptpusers` is created, allowing `ptp4l` to be run as a normal user, such as `pi`, without `sudo` elevation.
 
 Other scripts provided in this directory will allow linuxptp to be used in both server and client modes, to synchronise the server to a GNSS receiver (1PPS), and to create a 1PPS output on the client.
 
-### setup_linuxptp_testptp.sh walkthrough
+### Walkthrough of setup_linuxptp_testptp.sh
 
 1. **System Update Reminder**  
    - The script prompts the user to update and upgrade the system for an optimal setup.
