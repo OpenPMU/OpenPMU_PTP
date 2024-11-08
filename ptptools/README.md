@@ -5,7 +5,7 @@ The `setup_linuxptp_testptp.sh` Bash script is designed for setting up Precision
 
 Other scripts provided in this directory will allow linuxptp to be used in both server and client modes, to synchronise the server to a GNSS receiver (1PPS), and to create a 1PPS output on the client.
 
-### Script Steps
+### setup_linuxptp_testptp.sh walkthrough
 
 1. **System Update Reminder**  
    - The script prompts the user to update and upgrade the system for an optimal setup.
